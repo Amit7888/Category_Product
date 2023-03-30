@@ -1,0 +1,67 @@
+﻿@model PagedList.IPagedList<Category_Product.Models.Product>
+@using PagedList;
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<h4>Product List</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ProductId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Category.CategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Category.CategoryName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+            </td>
+        </tr>
+    }
+</table>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div style="margin-left:75%">
+
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)  <span class="text-success">OF</span>  @Model.PageCount
+
+    </div>
+    <div class="page-item ">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+
+    </div>
+</div>
